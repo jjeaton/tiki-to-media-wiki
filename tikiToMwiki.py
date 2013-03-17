@@ -724,6 +724,12 @@ for member in archive:
                                                                         formatted +=char
 
                                                                 word = '<nowiki>'+formatted+'</nowiki>'
+                                                        # Find and replace links with titles to display correctly
+                                                        if '[http' in word or '[ftp://' in word:
+                                                                index = word.find('|')
+                                                                if index != -1:
+                                                                        word = word.replace('|', ' ')
+
                                                         if word != '':
                                                                 if '\n' in word[-1]:
                                                                         words.append(word)
