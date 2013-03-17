@@ -784,6 +784,9 @@ for member in archive:
                                         mwiki = mwiki.replace("'''TOC'''\n", '')#if it's before bullets/numbers the second \n will have gone
                                         mwiki = mwiki.replace("'''NOTOC'''\n", '')
 
+                                # Replace Tiki TOC's
+                                mwiki=mwiki.replace('{maketoc}\n', '')
+
                                 outputpage = unicode(outputpage, "utf-8")
                                 outputpage+=mwiki+'</text>\n'
                                 outputpage+='</revision>\n'
