@@ -791,10 +791,10 @@ for member in archive:
                                                         for hat in range(1, hats+1):
                                                                 index = word.find('^')
                                                                 if not box:
-                                                                        word = word[:index]+'<pre>'+word[index+1:]
+                                                                        word = word[:index]+'<div class="simplebox">'+word[index+1:]
                                                                         box=True
                                                                 else:
-                                                                        word = word[:index]+'</pre>'+word[index+1:]
+                                                                        word = word[:index]+'</div>'+word[index+1:]
                                                                         box=False
                                                 if '{img' in word:
                                                         image = True
