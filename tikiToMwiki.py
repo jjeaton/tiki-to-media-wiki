@@ -76,6 +76,8 @@ class HTMLToMwiki(HTMLParser):
                                 #deals with uploads
                                 if 'tiki-download_file.php' in self.src:
                                         uploads.append(self.src)
+                                if 'tiki-download_wiki_attachment.php' in self.src:
+                                        uploads.append(self.src)
                                 self.link=True
                         if tag == 'ol':
                                 self.ol_count+=1
@@ -237,7 +239,7 @@ class HTMLToMwiki(HTMLParser):
                         space = ''
                         if data.startswith(' '):
                                 space = ' '
-                        if self.src.startswith(sourceurl+'tiki-download_file.php'):
+                        if self.src.startswith(sourceurl+'tiki-download_wiki_attachment.php'):
                                 wikitext.append(space+'['+self.src+' '+data+']')
                         elif self.src.startswith(sourceurl):
                                 if 'page=' in self.src:
