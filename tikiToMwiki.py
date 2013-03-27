@@ -822,7 +822,7 @@ for member in archive:
                                         mwiki = mwiki.replace("'''NOTOC'''\n", '')
 
                                 # Replace Tiki TOC's
-                                mwiki=mwiki.replace('{maketoc}\n', '')
+                                mwiki=mwiki.replace('{maketoc}', '__TOC__')
 
                                 outputpage = unicode(outputpage, "utf-8")
                                 outputpage+=mwiki+'</text>\n'
