@@ -621,6 +621,7 @@ for member in archive:
                                 mwiki=mwiki.replace('&lt;/br&gt;', '\n')
                                 mwiki=mwiki.replace('\r', ' ')
                                 mwiki=mwiki.replace('\t', ' ')
+                                mwiki=mwiki.replace('%%%', '<br/>')
 
                                 # Add nowiki tags around code snippets to preserve
                                 mwiki=mwiki.replace('{CODE', '<nowiki>{CODE')
