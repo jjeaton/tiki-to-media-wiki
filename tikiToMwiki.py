@@ -824,7 +824,7 @@ for member in archive:
 
                                                                         formatted +=char
 
-                                                                word = '<nowiki>'+formatted+'</nowiki>'
+                                                                # word = '<nowiki>'+formatted+'</nowiki>'
                                                         # Find and replace links with titles to display correctly
                                                         if '[http' in word or '[ftp://' in word:
                                                                 if 'tiki-download_wiki_attachment.php' in word:
