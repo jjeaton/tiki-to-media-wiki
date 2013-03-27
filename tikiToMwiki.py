@@ -668,6 +668,31 @@ for member in archive:
                                 for line in mwiki.splitlines(True):
                                         heading = False
                                         noCentre = False
+
+                                        if '{file' in line:
+                                                if 'name=' in line:
+                                                        namestart = line.lower().index('{file')
+                                                        before_text = line[:namestart]
+                                                        src = line[namestart:line.index('}')+1]
+                                                        after_text = line[line.index('}')+1:]
+                                                        parts = src.split('=')
+                                                        print parts
+                                                        filename = parts[1][1:parts[1].find('"',1)]
+                                                        filename = filename.replace("'''", "__")
+                                                        filename = filename.replace("__", "_")
+                                                        filename = filename.replace(" ", "_")
+                                                        desc = ''
+                                                        if 'desc=' in line:
+                                                                for part in parts:
+                                                                        if 'desc' in part:
+                                                                                desc = parts[parts.index(part)+1]
+                                                                                desc = desc[1:desc.find('"',1)]
+                                                        if desc != '':
+                                                                filelink = "%s[[Media:%s|%s]]%s" % (before_text, filename, desc, after_text)
+                                                        else:
+                                                                filelink = "%s[[Media:%s|%s]]%s" % (before_text, filename, filename, after_text)
+                                                        line = filelink
+                                                        print filelink.encode('utf-8')
                                         # handle images before splitting into words
                                         if '{img' in line or '{IMG' in line:
                                                 if 'src=' in line:
