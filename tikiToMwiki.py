@@ -287,31 +287,64 @@ def insertImage(word,words):
         global imagenames
         global imageids
         global imagepath
+        global line
         #there are even more ways to specify pic sources in our tiki
-        if 'name=' in word:
-                parts = word.split('=')
-                try:
-                        filename = imagenames[parts[2]]
-                except KeyError:
-                        sys.stderr.write(parts[2]+' doesn\'t exist in your image XML file and won\'t be displayed properly\n')
-                        filename=parts[2]
-                filename = quote(filename)
-                imagepath = urljoin(urljoin(sourceurl,imageurl), filename)
-                if options.newImagepath != '':
-                        imagepath=urljoin(options.newImagepath, filename)
-                words.append('<pic>'+imagepath)
-        if 'id=' in word:
-                parts = word.split('=')
-                try:
-                        filename = imageids[parts[2]]
-                except KeyError:
-                        sys.stderr.write( 'The image with ID '+parts[2]+' doesn\'t exist in your image XML file and won\'t be displayed properly\n')
-                        filename=parts[2]
-                filename = quote(filename)
-                imagepath = urljoin(urljoin(sourceurl,imageurl), filename)
-                if options.newImagepath != '':
-                        imagepath=urljoin(options.newImagepath, filename)
-                words.append('<pic>'+imagepath)
+        if 'src=' in line:
+                if 'http' in line:
+                        # print "external"
+                        # print line.encode('utf-8')
+                        lineparts = line.split('}')
+                        parts = lineparts[0].split('=')
+                        # print parts
+                        try:
+                                filename = parts[1][1:parts[1].find('"',1)]
+                        except:
+                                pass
+                        imgfile = "%s%s" % (filename, '}'.join(lineparts[1:]))
+                        # print imgfile.encode('utf-8')
+                        line = imgfile
+                        words.append(imgfile)
+                else:
+                        # print line.encode('utf-8')
+                        lineparts = line.split('}')
+                        parts = lineparts[0].split('=')
+                        # print parts
+                        try:
+                                filename = parts[1][1:parts[1].find('"',1)]
+                        except:
+                                pass
+                        filename = filename.replace('[', '_')
+                        filename = filename.replace(']', '')
+                        filename = filename.replace(imageurl, '')
+                        imgfile = "[[File:%s]]%s" % (filename, '}'.join(lineparts[1:]))
+                        # imgfile = "[[File:%s]]" % (filename)
+                        # print imgfile.encode('utf-8')
+                        line = imgfile
+                        words.append(imgfile)
+        # if 'name=' in word:
+        #         parts = word.split('=')
+        #         try:
+        #                 filename = imagenames[parts[2]]
+        #         except KeyError:
+        #                 sys.stderr.write(parts[2]+' doesn\'t exist in your image XML file and won\'t be displayed properly\n')
+        #                 filename=parts[2]
+        #         filename = quote(filename)
+        #         imagepath = urljoin(urljoin(sourceurl,imageurl), filename)
+        #         if options.newImagepath != '':
+        #                 imagepath=urljoin(options.newImagepath, filename)
+        #         words.append('<pic>'+imagepath)
+        # if 'id=' in word:
+        #         parts = word.split('=')
+        #         try:
+        #                 filename = imageids[parts[2]]
+        #         except KeyError:
+        #                 sys.stderr.write( 'The image with ID '+parts[2]+' doesn\'t exist in your image XML file and won\'t be displayed properly\n')
+        #                 filename=parts[2]
+        #         filename = quote(filename)
+        #         imagepath = urljoin(urljoin(sourceurl,imageurl), filename)
+        #         if options.newImagepath != '':
+        #                 imagepath=urljoin(options.newImagepath, filename)
+        #         words.append('<pic>'+imagepath)
         if '}' in word:
                 bracket=word.find('}')
                 if word[-1]!='}':
