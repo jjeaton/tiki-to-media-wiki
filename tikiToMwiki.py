@@ -586,6 +586,13 @@ for member in archive:
                                 mwiki=mwiki.replace('\r', ' ')
                                 mwiki=mwiki.replace('\t', ' ')
 
+                                # Add nowiki tags around code snippets to preserve
+                                mwiki=mwiki.replace('{CODE', '<nowiki>{CODE')
+                                mwiki=mwiki.replace('{CODE}', '{CODE}</nowiki>')
+
+                                # Remove extra {IMG} tags
+                                mwiki = mwiki.replace('{IMG}', '')
+
                                 # convert === underline syntax before the html converter as
                                 # headings in mwiki use =s and h3 tags will become ===heading===
                                 next = 0
@@ -762,6 +769,13 @@ for member in archive:
                                         lines.append(line)
                                 mwiki=''.join(lines)
 
+                                # Replace syntax highlighting
+                                mwiki=mwiki.replace('<nowiki><nowiki>', '<nowiki>')    # remove extra nowikis added somewhere
+                                mwiki=mwiki.replace('</nowiki></nowiki>', '</nowiki>') # remove extra nowikis added somewhere
+                                mwiki=mwiki.replace('<nowiki>{CODE}</nowiki>', '</syntaxhighlight>')
+                                mwiki=re.sub('<nowiki>{CODE\(.*colors\=\"([\w]+)\".*\)}', '<syntaxhighlight lang=&quot;\\1&quot;>', mwiki)
+                                mwiki=re.sub('<nowiki>{CODE\(.*\)}', '<syntaxhighlight lang=&quot;php&quot;>', mwiki)
+
                                 entitydefs = dict( (unichr(k), "&amp;"+v+";") for k, v in htmlentitydefs.codepoint2name.items() )
                                 entitydefs.pop('<')
                                 entitydefs.pop('>')
@@ -772,13 +786,24 @@ for member in archive:
                                         if mwiki[n]< " " and mwiki[n]!='\n' and mwiki[n]!='\r' and mwiki[n]!='\t':
                                                 mwiki=mwiki[:n]+"?"+mwiki[n+1:]
 
+                                mwiki=mwiki.replace('amp;amp;', 'amp;') # Fix double-encoded entities
                                 mwiki=mwiki.replace('amp;lt;','lt;')
                                 mwiki=mwiki.replace('amp;gt;','gt;')
+                                mwiki=mwiki.replace('amp;quot;','quot;')
+                                mwiki=mwiki.replace('&amp;nbsp;','&#160;')
+
+                                # Replace entities in syntax highlighting
+                                mwiki=mwiki.replace('lang=&amp;quot;', 'lang=&quot;')
+                                mwiki=mwiki.replace('&amp;quot;&gt;', '&quot;&gt;')
+                                mwiki=re.sub('(&lt;syntaxhighlight.*?)&quot;&gt;', '\\1&quot; enclose=&quot;div&quot;&gt;', mwiki) # Add enclose=div attributes, fixes formatting
+                                mwiki=mwiki.replace('lang=&quot;sh&quot;', 'lang=&quot;bash&quot;')
 
                                 while "  " in mwiki:
                                         mwiki=mwiki.replace("  ", " ")
                                 mwiki=mwiki.replace('&lt;!--','<!--')
                                 mwiki=mwiki.replace('--&gt;','-->')
+                                mwiki=re.sub('--+>', '-->', mwiki)
+                                mwiki=re.sub('<!--+', '<!--', mwiki)
 
                                 # the table of contents will have been seen as bold formatting
                                 if len(headings)>=3:
