@@ -796,8 +796,9 @@ for member in archive:
                                                                 else:
                                                                         word = word[:index]+'</div>'+word[index+1:]
                                                                         box=False
-                                                if '{img' in word:
-                                                        image = True
+                                                if '{img' in word or '{IMG' in word:
+                                                        # image = True
+                                                        image = False
                                                 if '((' in word:
                                                         intLink = True
                                                 if image:
