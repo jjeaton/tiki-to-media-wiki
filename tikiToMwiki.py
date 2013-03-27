@@ -21,6 +21,7 @@ from HTMLParser import HTMLParser
 from urllib import quote,unquote
 from urlparse import urljoin
 from optparse import OptionParser
+import re # get regex for syntaxhighlighting
 
 #add any other links you may want to map between wikis here
 url_maps = {'http://tikiwiki.org/RFCWiki':'http://meta.wikimedia.org/wiki/Cheatsheet'}
