@@ -736,9 +736,12 @@ for member in archive:
                                                                 word = '<nowiki>'+formatted+'</nowiki>'
                                                         # Find and replace links with titles to display correctly
                                                         if '[http' in word or '[ftp://' in word:
-                                                                index = word.find('|')
-                                                                if index != -1:
-                                                                        word = word.replace('|', ' ')
+                                                                if 'tiki-download_wiki_attachment.php' in word:
+                                                                        uploads.append(word)
+                                                                else:
+                                                                        index = word.find('|')
+                                                                        if index != -1:
+                                                                                word = word.replace('|', ' ')
 
                                                         if word != '':
                                                                 if '\n' in word[-1]:
