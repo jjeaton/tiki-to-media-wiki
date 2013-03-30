@@ -908,6 +908,7 @@ for member in archive:
                                 mwiki=mwiki.replace('amp;quot;','quot;')
                                 mwiki=mwiki.replace('&amp;nbsp;','&#160;') # &nbsp not a valid XML entity
                                 mwiki=mwiki.replace('%%%', '&lt;br/&gt;') # Replace Tiki line breaks
+                                mwiki=mwiki.replace('&lt;/br&gt;', '') # attempt to replace br placeholders
 
                                 # Replace entities in syntax highlighting
                                 mwiki=mwiki.replace('lang=&amp;quot;', 'lang=&quot;')
