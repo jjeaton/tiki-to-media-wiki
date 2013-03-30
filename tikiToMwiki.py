@@ -665,9 +665,29 @@ for member in archive:
                                 inColourTag=False
                                 page = ''
                                 centre=False
+                                inTable=False
                                 for line in mwiki.splitlines(True):
                                         heading = False
                                         noCentre = False
+
+                                        # Check for tables and format appropriately
+                                        if line.strip()[:2] == '||':
+                                                inTable = True
+                                                line = line.strip()[2:]
+                                                line = '{|\n|' + line.replace('|', '||') + '\n|-\n'
+                                                # print "Table start Line %i" % count
+                                                # print line,
+                                        elif line.strip()[-2:] == '||':
+                                                line = line.strip()[:-2]
+                                                line = line.replace('|', '||')
+                                                line = '|' + line + '\n|}\n'
+                                                # print line,
+                                                # print "Table END! Line %i" % count
+                                                inTable = False
+                                        elif inTable:
+                                                line=line.replace('|', '||')
+                                                line='|'+line+'|-\n'
+                                                # print line,
 
                                         if '{file' in line:
                                                 if 'name=' in line:
