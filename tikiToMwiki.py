@@ -935,6 +935,11 @@ for member in archive:
                                 # Replace Tiki TOC's
                                 mwiki=mwiki.replace('{maketoc}', '__TOC__')
 
+                                # Tighten up extra newlines in table formatting
+                                mwiki=mwiki.replace('{|\n\n', '{|\n') # Table starts
+                                mwiki=mwiki.replace('\n\n|-\n\n', '\n|-\n') # Table rows
+                                mwiki=mwiki.replace('\n\n|}', '\n|}') # Table ends
+
                                 outputpage = unicode(outputpage, "utf-8")
                                 outputpage+=mwiki+'</text>\n'
                                 outputpage+='</revision>\n'
