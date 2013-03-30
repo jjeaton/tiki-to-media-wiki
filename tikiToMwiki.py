@@ -696,7 +696,7 @@ for member in archive:
                                                         src = line[namestart:line.index('}')+1]
                                                         after_text = line[line.index('}')+1:]
                                                         parts = src.split('=')
-                                                        print parts
+                                                        # print parts
                                                         filename = parts[1][1:parts[1].find('"',1)]
                                                         filename = filename.replace("'''", "__")
                                                         filename = filename.replace("__", "_")
@@ -712,7 +712,7 @@ for member in archive:
                                                         else:
                                                                 filelink = "%s[[Media:%s|%s]]%s" % (before_text, filename, filename, after_text)
                                                         line = filelink
-                                                        print filelink.encode('utf-8')
+                                                        # print filelink.encode('utf-8')
                                         # handle images before splitting into words
                                         if '{img' in line or '{IMG' in line:
                                                 if 'src=' in line:
