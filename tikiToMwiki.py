@@ -889,8 +889,9 @@ for member in archive:
                                 mwiki=mwiki.replace('<nowiki><nowiki>', '<nowiki>')    # remove extra nowikis added somewhere
                                 mwiki=mwiki.replace('</nowiki></nowiki>', '</nowiki>') # remove extra nowikis added somewhere
                                 mwiki=mwiki.replace('<nowiki>{CODE}</nowiki>', '</syntaxhighlight>')
-                                mwiki=re.sub('<nowiki>{CODE\(.*colors\=\"([\w]+)\".*\)}', '<syntaxhighlight lang=&quot;\\1&quot;>', mwiki)
-                                mwiki=re.sub('<nowiki>{CODE\(.*\)}', '<syntaxhighlight lang=&quot;php&quot;>', mwiki)
+                                mwiki=re.sub('<nowiki>{CODE\(.*?colors\=\"([\w]+)\".*?\)}', '<syntaxhighlight lang=&quot;\\1&quot;>', mwiki)
+                                mwiki=re.sub('<nowiki>{CODE\(.*?\)}', '<syntaxhighlight lang=&quot;php&quot;>', mwiki)
+
 
                                 entitydefs = dict( (unichr(k), "&amp;"+v+";") for k, v in htmlentitydefs.codepoint2name.items() )
                                 entitydefs.pop('<')
