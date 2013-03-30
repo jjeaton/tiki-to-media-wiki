@@ -922,6 +922,7 @@ for member in archive:
                                 mwiki=mwiki.replace('--&gt;','-->')
                                 mwiki=re.sub('--+>', '-->', mwiki)
                                 mwiki=re.sub('<!--+', '<!--', mwiki)
+                                mwiki=re.sub(r'^-{3}$', '----', mwiki, flags=re.MULTILINE) # Fix incorrect HR tags from Tiki
 
                                 # the table of contents will have been seen as bold formatting
                                 if len(headings)>=3:
