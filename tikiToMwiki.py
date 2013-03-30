@@ -621,7 +621,6 @@ for member in archive:
                                 mwiki=mwiki.replace('&lt;/br&gt;', '\n')
                                 mwiki=mwiki.replace('\r', ' ')
                                 mwiki=mwiki.replace('\t', ' ')
-                                mwiki=mwiki.replace('%%%', '<br/>')
 
                                 # Add nowiki tags around code snippets to preserve
                                 mwiki=mwiki.replace('{CODE', '<nowiki>{CODE')
@@ -907,7 +906,8 @@ for member in archive:
                                 mwiki=mwiki.replace('amp;lt;','lt;')
                                 mwiki=mwiki.replace('amp;gt;','gt;')
                                 mwiki=mwiki.replace('amp;quot;','quot;')
-                                mwiki=mwiki.replace('&amp;nbsp;','&#160;')
+                                mwiki=mwiki.replace('&amp;nbsp;','&#160;') # &nbsp not a valid XML entity
+                                mwiki=mwiki.replace('%%%', '&lt;br/&gt;') # Replace Tiki line breaks
 
                                 # Replace entities in syntax highlighting
                                 mwiki=mwiki.replace('lang=&amp;quot;', 'lang=&quot;')
