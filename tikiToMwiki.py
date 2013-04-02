@@ -936,12 +936,14 @@ for member in archive:
                                                         hats = word.count('^')
                                                         for hat in range(1, hats+1):
                                                                 index = word.find('^')
-                                                                if not box:
-                                                                        word = word[:index]+'<div class="simplebox">'+word[index+1:]
-                                                                        box=True
-                                                                else:
-                                                                        word = word[:index]+'</div>'+word[index+1:]
-                                                                        box=False
+                                                                # Only if not part of a regular expression, seriously?
+                                                                if word[index-1] != '/':
+                                                                        if not box:
+                                                                                word = word[:index]+'<div class="simplebox">'+word[index+1:]
+                                                                                box=True
+                                                                        else:
+                                                                                word = word[:index]+'</div>'+word[index+1:]
+                                                                                box=False
                                                 if '{img' in word or '{IMG' in word:
                                                         # image = True
                                                         image = False
