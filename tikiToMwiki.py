@@ -1068,6 +1068,17 @@ for member in archive:
                                 # Replace Tiki TOC's
                                 mwiki=mwiki.replace('{maketoc}', '__TOC__')
 
+                                # Replace {TAGs and strikethrough formatting
+                                mwiki=mwiki.replace('{TAG(tag=&gt;strike)}', '&lt;s&gt;')
+                                mwiki=mwiki.replace('{TAG}', '&lt;/s&gt;')
+                                # This couldn't be more frustrating, replace html comments with placeholders
+                                # then replace -- as strikethrough
+                                # then replace the html comments
+                                mwiki=mwiki.replace('<!--', '%%%')
+                                mwiki=mwiki.replace('-->', '$#@')
+                                mwiki=re.sub(r'-{2}(.+?)-{2}', '&lt;strike&gt;\\1&lt;/strike&gt;', mwiki)
+                                mwiki=mwiki.replace('%%%','<!--')
+                                mwiki=mwiki.replace('$#@','-->')
                                 # Replace {DIVs
                                 mwiki=mwiki.replace('{DIV(float=&gt;right)}', '&lt;div style="float:right;"&gt;')
                                 mwiki=mwiki.replace('{DIV}', '&lt;/div&gt;')
