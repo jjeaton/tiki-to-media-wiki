@@ -799,6 +799,33 @@ for member in archive:
                                         heading = False
                                         noCentre = False
 
+                                        # Handle misc file download links
+                                        if '[http' in line:
+                                                if 'tiki-download_wiki_attachment.php' in line:
+                                                        uploads.append(line)
+                                                        srcstart = line.lower().index('[http')
+                                                        before_text = line[:srcstart]
+                                                        link = line[srcstart:line.index(']')+1]
+                                                        after_text = line[line.index(']')+1:]
+                                                        # get attachment id
+                                                        attID = link.find('attId=')
+                                                        if attID != -1:
+                                                                attID = link[attID+6:link.find('&')]
+                                                                if attID == '6o':
+                                                                        attID = '30'
+                                                                src = link[link.find('http'):link.find('|')]
+                                                                desc = link[link.find('|')+1:link.find(']')]
+                                                                try:
+                                                                        filename = downloads[int(attID)][0]
+                                                                except:
+                                                                        print "Download not found: %s" % attID.encode('utf-8')
+                                                                        filename = 'undefined'
+                                                                filename = filename.replace("'''", "__")
+                                                                filename = filename.replace("__", "_")
+                                                                filename = filename.replace(" ", "_")
+                                                                filelink = "[[Media:%s|%s]]" % (filename, desc)
+                                                                line = line.replace(link, filelink)
+
                                         # Check for tables and format appropriately
                                         if line.strip()[:2] == '||':
                                                 inTable = True
