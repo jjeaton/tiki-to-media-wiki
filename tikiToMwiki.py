@@ -827,23 +827,20 @@ for member in archive:
                                                                 line = line.replace(link, filelink)
 
                                         # Check for tables and format appropriately
-                                        if line.strip()[:2] == '||':
-                                                inTable = True
-                                                line = line.strip()[2:]
-                                                line = '{|\n|' + line.replace('|', '||') + '\n|-\n'
-                                                # print "Table start Line %i" % count
-                                                # print line,
-                                        elif line.strip()[-2:] == '||':
-                                                line = line.strip()[:-2]
-                                                line = line.replace('|', '||')
-                                                line = '|' + line + '\n|}\n'
-                                                # print line,
-                                                # print "Table END! Line %i" % count
-                                                inTable = False
-                                        elif inTable:
-                                                line=line.replace('|', '||')
-                                                line='|'+line+'|-\n'
-                                                # print line,
+                                        if inTable:
+                                                if line.strip()[-2:] == '||':
+                                                        line = line.strip()[:-2]
+                                                        line = line.replace('|', '||')
+                                                        line = '|' + line + '\n|}'
+                                                        inTable = False
+                                                else:
+                                                        line=line.replace('|', '||')
+                                                        line='|'+line+'|-\n'
+                                        else:
+                                                if line.strip()[:2] == '||':
+                                                        inTable = True
+                                                        line = line.strip()[2:]
+                                                        line = '{|\n|' + line.replace('|', '||') + '\n|-\n'
 
                                         if '{file' in line:
                                                 if 'name=' in line:
