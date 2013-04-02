@@ -398,24 +398,18 @@ def insertImage(word,words):
         #there are even more ways to specify pic sources in our tiki
         if 'src=' in line:
                 if 'http' in line:
-                        # print "external"
-                        # print line.encode('utf-8')
                         lineparts = line.split('}')
                         parts = lineparts[0].split('=')
-                        # print parts
                         try:
                                 filename = parts[1][1:parts[1].find('"',1)]
                         except:
                                 pass
                         imgfile = "%s%s" % (filename, '}'.join(lineparts[1:]))
-                        # print imgfile.encode('utf-8')
                         line = imgfile
                         words.append(imgfile)
                 else:
-                        # print line.encode('utf-8')
                         lineparts = line.split('}')
                         parts = lineparts[0].split('=')
-                        # print parts
                         try:
                                 filename = parts[1][1:parts[1].find('"',1)]
                         except:
@@ -425,7 +419,6 @@ def insertImage(word,words):
                         filename = filename.replace(imageurl, '')
                         imgfile = "[[File:%s]]%s" % (filename, '}'.join(lineparts[1:]))
                         # imgfile = "[[File:%s]]" % (filename)
-                        # print imgfile.encode('utf-8')
                         line = imgfile
                         words.append(imgfile)
         # if 'name=' in word:
@@ -748,9 +741,6 @@ for member in archive:
                                         next = start +1
                                         #if there is another === convert them both
 
-                                #print mwiki
-
-
                                 wikitext=[]
 
                                 #convert any HTML tags to mediawiki syntax
@@ -802,7 +792,7 @@ for member in archive:
                                                         src = line[namestart:line.index('}')+1]
                                                         after_text = line[line.index('}')+1:]
                                                         parts = src.split('=')
-                                                        # print parts
+
                                                         filename = parts[1][1:parts[1].find('"',1)]
                                                         filename = filename.replace("'''", "__")
                                                         filename = filename.replace("__", "_")
@@ -818,7 +808,7 @@ for member in archive:
                                                         else:
                                                                 filelink = "%s[[Media:%s|%s]]%s" % (before_text, filename, filename, after_text)
                                                         line = filelink
-                                                        # print filelink.encode('utf-8')
+
                                         # handle images before splitting into words
                                         if '{img' in line or '{IMG' in line:
                                                 if 'src=' in line:
