@@ -511,6 +511,39 @@ def insertLink(word):
                 first=False
                 page += ' '+word
 
+# Replace image syntax with MediaWiki syntax (used recursively)
+def replace_images(line):
+        if 'src=' in line:
+                imgstart = line.lower().index('{img')
+                before_text = line[:imgstart]
+                src = line[imgstart:line.index('}')+1]
+                after_text = line[line.index('}')+1:]
+                if 'src=' in after_text:
+                        after_text = replace_images(after_text)
+                if 'http' in src:
+                        parts = src.split('=')
+                        filename = parts[1][1:parts[1].find('"',1)]
+                        imgfile = "%s%s%s" % (before_text, filename, after_text)
+                        line = imgfile
+                        return line
+                else:
+                        parts = src.split('=')
+                        try:
+                              filename = parts[1][1:parts[1].find('"',1)]
+                        except:
+                              filename = ''
+                        filename = filename.replace('[', '_')
+                        filename = filename.replace(']', '')
+                        filename = filename.replace(imageurl, '')
+                        if filename == '':
+                                imgfile = "%s%s" % (before_text, after_text)
+                        else:
+                                imgfile = "%s[[File:%s]]%s" % (before_text, filename, after_text)
+                        line = imgfile
+                        return line
+        else:
+                return line
+
 parser = OptionParser()
 parser.add_option("-n", "--notableofcontents",
                   action="store_true", dest="notoc", default=False,
@@ -811,34 +844,7 @@ for member in archive:
 
                                         # handle images before splitting into words
                                         if '{img' in line or '{IMG' in line:
-                                                if 'src=' in line:
-                                                        imgstart = line.lower().index('{img')
-                                                        before_text = line[:imgstart]
-                                                        src = line[imgstart:line.index('}')+1]
-                                                        after_text = line[line.index('}')+1:]
-                                                        if 'http' in src:
-                                                                parts = src.split('=')
-                                                                # print parts
-                                                                filename = parts[1][1:parts[1].find('"',1)]
-                                                                imgfile = "%s%s%s" % (before_text, filename, after_text)
-                                                                line = imgfile
-                                                                # print imgfile.encode('utf-8')
-                                                        else:
-                                                                parts = src.split('=')
-                                                                # print parts
-                                                                try:
-                                                                      filename = parts[1][1:parts[1].find('"',1)]
-                                                                except:
-                                                                      filename = ''
-                                                                filename = filename.replace('[', '_')
-                                                                filename = filename.replace(']', '')
-                                                                filename = filename.replace(imageurl, '')
-                                                                if filename == '':
-                                                                        imgfile = "%s%s" % (before_text, after_text)
-                                                                else:
-                                                                        imgfile = "%s[[File:%s]]%s" % (before_text, filename, after_text)
-                                                                line = imgfile
-                                                                # print imgfile.encode('utf-8')
+                                                line = replace_images(line)
 
                                         #if there are an odd no. of ::s don't convert to centered text
                                         if line.count('::') % 2 != 0:
