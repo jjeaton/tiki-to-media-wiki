@@ -1079,6 +1079,11 @@ for member in archive:
                                 mwiki=re.sub(r'-{2}(.+?)-{2}', '&lt;strike&gt;\\1&lt;/strike&gt;', mwiki)
                                 mwiki=mwiki.replace('%%%','<!--')
                                 mwiki=mwiki.replace('$#@','-->')
+
+                                # Replace ~pp~ tags
+                                mwiki=mwiki.replace('~/pp~', '&lt;/nowiki&gt;')
+                                mwiki=mwiki.replace('~pp~', ' &lt;nowiki&gt;')
+
                                 # Replace {DIVs
                                 mwiki=mwiki.replace('{DIV(float=&gt;right)}', '&lt;div style="float:right;"&gt;')
                                 mwiki=mwiki.replace('{DIV}', '&lt;/div&gt;')
