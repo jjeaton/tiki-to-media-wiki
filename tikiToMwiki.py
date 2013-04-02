@@ -1068,6 +1068,12 @@ for member in archive:
                                 # Replace Tiki TOC's
                                 mwiki=mwiki.replace('{maketoc}', '__TOC__')
 
+                                # Replace {DIVs
+                                mwiki=mwiki.replace('{DIV(float=&gt;right)}', '&lt;div style="float:right;"&gt;')
+                                mwiki=mwiki.replace('{DIV}', '&lt;/div&gt;')
+                                mwiki=mwiki.replace('{DIV(class=&gt;class, type=&gt;div, width=&gt;125px)}', '&lt;div class="class" style="width:125px;"&gt;')
+                                mwiki=mwiki.replace('{DIV(class=&gt;class, type=&gt;div, width=&gt;120px)}', '&lt;div class="class" style="width:120px;"&gt;')
+
                                 # Tighten up extra newlines in table formatting
                                 mwiki=mwiki.replace('{|\n\n', '{|\n') # Table starts
                                 mwiki=mwiki.replace('\n\n|-\n\n', '\n|-\n') # Table rows
