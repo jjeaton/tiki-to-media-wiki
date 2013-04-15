@@ -828,15 +828,18 @@ for member in archive:
 
                                         # Check for tables and format appropriately
                                         if inTable:
+                                                # Check for end of table
                                                 if line.strip()[-2:] == '||':
                                                         line = line.strip()[:-2]
                                                         line = line.replace('|', '||')
-                                                        line = '|' + line + '\n|}'
+                                                        line = '|' + line + '\n|}\n'
                                                         inTable = False
+                                                # Inner table row
                                                 else:
                                                         line=line.replace('|', '||')
                                                         line='|'+line+'|-\n'
                                         else:
+                                                # Check for table start
                                                 if line.strip()[:2] == '||':
                                                         inTable = True
                                                         line = line.strip()[2:]
